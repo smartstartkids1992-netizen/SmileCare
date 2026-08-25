@@ -219,9 +219,9 @@
         <p>هذا نموذج تجريبي للمشروع. عند تسليم الموقع للعميل يمكن ربطه بواتساب أو نظام حجز فعلي.</p>
       </div>
       <form id="bookingForm" style="display:grid;gap:14px">
-        <input required placeholder="الاسم الكامل" style="padding:15px;border:1px solid #dce3f0;border-radius:14px;font:inherit">
-        <input required type="tel" placeholder="رقم الجوال" style="padding:15px;border:1px solid #dce3f0;border-radius:14px;font:inherit">
-        <select required style="padding:15px;border:1px solid #dce3f0;border-radius:14px;font:inherit;background:#fff">
+        <input id="bookingName" required placeholder="الاسم الكامل" style="padding:15px;border:1px solid #dce3f0;border-radius:14px;font:inherit">
+        <input id="bookingPhone" required type="tel" placeholder="رقم الجوال" style="padding:15px;border:1px solid #dce3f0;border-radius:14px;font:inherit">
+        <select id="bookingService" required style="padding:15px;border:1px solid #dce3f0;border-radius:14px;font:inherit;background:#fff">
           <option value="">اختر الخدمة</option><option>تجميل الأسنان</option><option>تقويم الأسنان</option><option>زراعة الأسنان</option><option>العلاجات التحفظية</option><option>علاج الأطفال</option>
         </select>
         <button class="btn btn-primary" type="submit">إرسال طلب الحجز</button>
@@ -243,7 +243,25 @@
 <script>
   document.getElementById('bookingForm').addEventListener('submit', function(e){
     e.preventDefault();
-    document.getElementById('success').hidden = false;
+
+    const name = document.getElementById('bookingName').value.trim();
+    const phone = document.getElementById('bookingPhone').value.trim();
+    const service = document.getElementById('bookingService').value;
+
+    const message =
+      'طلب حجز جديد - عيادات مولر\n' +
+      'الاسم: ' + name + '\n' +
+      'الجوال: ' + phone + '\n' +
+      'الخدمة: ' + service;
+
+    const whatsappUrl =
+      'https://wa.me/966570707029?text=' + encodeURIComponent(message);
+
+    window.open(whatsappUrl, '_blank', 'noopener');
+
+    const success = document.getElementById('success');
+    success.textContent = 'تم تجهيز طلب الحجز وفتح واتساب لإرساله للعيادة.';
+    success.hidden = false;
   });
 </script>
 </body>
